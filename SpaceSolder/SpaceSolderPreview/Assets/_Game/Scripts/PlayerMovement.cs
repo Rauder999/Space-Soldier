@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 angle = 360 - angle;
             }
-            if (angle < 135/2)
+            if (angle < 67.5)
             {
                 transform.rotation = Quaternion.Euler(0, newRotation.eulerAngles.y, 0);
                 _animator.SetBool("IsRunningForward", true);

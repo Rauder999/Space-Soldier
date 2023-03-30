@@ -13,28 +13,22 @@ public class Crossheir : MonoBehaviour
 
     public float currentSpread;
 
-    private bool _isAiming;
-    private float t;
-    private float curSpread;
+    private float _curSpread;
 
     void Update()
     {
         CrossheirUpdate();
     }
-    public void AimController()
-    {
-        _isAiming = !_isAiming;
-    }
 
     public void CrossheirUpdate()
     {
-        t = 0.005f * speedSpread;
-        curSpread = Mathf.Lerp(curSpread, currentSpread, t);
+        float t = 0.005f * speedSpread;
+        _curSpread = Mathf.Lerp(_curSpread, currentSpread, t);
 
         for (int i = 0; i < parts.Length; i++)
         {
             Parts p = parts[i];
-            p.trans.anchoredPosition = p.pos * curSpread;
+            p.trans.anchoredPosition = p.pos * _curSpread;
         }
     }
     [System.Serializable]

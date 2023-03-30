@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour
         {
             print(hit.transform.name);
 
-            GameObject decal = Instantiate<GameObject>(decalPrefab);
+            var decal = Instantiate(decalPrefab);
             decal.transform.position = hit.point + hit.normal * 0.001f;
             decal.transform.rotation = Quaternion.LookRotation(hit.normal);
             Destroy(decal, 10);
