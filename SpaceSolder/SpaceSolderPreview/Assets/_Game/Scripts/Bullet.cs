@@ -1,24 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private GameObject decalPrefab;
-    
-    private Vector3 lastPos;
+    Vector3 lastPos;
   
     void Start()
     {
         lastPos = transform.position;
     }
+
    
     void Update()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
-        Debug.DrawLine(lastPos, transform.position);
+        RaycastHit hit;
 
-        if (Physics.Linecast(lastPos, transform.position, out var hit))
+        Debug.DrawLine(lastPos,transform.position);
+        if (Physics.Linecast(lastPos, transform.position, out hit))
         {
             print(hit.transform.name);
 
@@ -28,7 +31,6 @@ public class Bullet : MonoBehaviour
             Destroy(decal, 10);
             Destroy(gameObject);
         }
-
         lastPos = transform.position;
     }
 }

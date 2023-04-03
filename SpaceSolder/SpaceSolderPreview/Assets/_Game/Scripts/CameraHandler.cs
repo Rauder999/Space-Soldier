@@ -1,4 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.UIElements;
 
 public class CameraHandler : MonoBehaviour
 {
@@ -34,14 +38,28 @@ public class CameraHandler : MonoBehaviour
         TargetLook();
     }
 
-    public void UpdateScopeStatus()
+    private void TargetLook()
+    {
+        Ray ray = new Ray(camTrans.position, camTrans.forward * rayDistance1);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit))
+        {
+            targetLook.position = Vector3.Lerp(targetLook.position, hit.point, Time.deltaTime * 40);
+        }
+
+        else
+        {
+            targetLook.position = Vector3.Lerp(targetLook.position, targetLook.transform.forward * rayDistance2, Time.deltaTime * 5);
+        }
+    }
+
+    public void ScopeController()
     {
         bool _isAiming = characterStatus.isAiming;
         _isAiming = !_isAiming;
         characterStatus.isAiming = _isAiming;
     }
-
-    private void HandlePosition()
+    void HandlePosition()
     {
         float targetX = cameraConfig.normalX;
         float targetY = cameraConfig.normalY;
@@ -65,71 +83,59 @@ public class CameraHandler : MonoBehaviour
         Vector3 newCameraPosition = camTrans.localPosition;
         newCameraPosition.z = targetZ;
 
-        float smoothes = Time.deltaTime * cameraConfig.pivotSpeed;
-        pivot.localPosition = Vector3.Lerp(pivot.localPosition, newPivotPosition, smoothes);
-        camTrans.localPosition = Vector3.Lerp(camTrans.localPosition, newCameraPosition, smoothes);
+        float t = Time.deltaTime * cameraConfig.pivotSpeed;
+        pivot.localPosition = Vector3.Lerp(pivot.localPosition, newPivotPosition, t);
+        camTrans.localPosition = Vector3.Lerp(camTrans.localPosition, newCameraPosition, t);
     }
 
-    private void HandleRotation()
+    void HandleRotation()
     {
-#if UNITY_EDITOR
-        if (Input.GetMouseButton(0) && Input.mousePosition.x > Screen.width / 2)
+        if (Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved))
         {
-            mouseX = Input.GetAxis("Mouse X");
-            mouseY = Input.GetAxis("Mouse Y");
-            _distortionPK = distortionPK;
-            CalibrateRotation();
-        }
-#else
-        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved))
-        {
-            if (Input.GetTouch(0).position.x > Screen.width / 2)
+            float targetRotY = Character.transform.rotation.eulerAngles.y;
+            if (Input.mousePosition.x > Screen.width / 2 || Input.touchCount > 0)
             {
-                mouseX = Input.GetTouch(0).deltaPosition.x;
-                mouseY = Input.GetTouch(0).deltaPosition.y;
-                _distortionPK = 0;
-                CalibrateRotation();
+                if (Input.touchCount == 0 || Input.GetTouch(0).position.x > Screen.width / 2)
+                {
+                    if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+                    {
+                        mouseX = Input.GetTouch(0).deltaPosition.x;
+                        mouseY = Input.GetTouch(0).deltaPosition.y;
+                        _distortionPK = 0;
+                    }
+                    else
+                    {
+                        mouseX = Input.GetAxis("Mouse X");
+                        mouseY = Input.GetAxis("Mouse Y");
+                        _distortionPK = distortionPK;
+                    }
+                    if (cameraConfig.turnSmooth > 0)
+                    {
+                        smoothX = Mathf.SmoothDamp(smoothX, mouseX, ref smoothXVelocity, cameraConfig.turnSmooth);
+                        smoothY = Mathf.SmoothDamp(smoothY, mouseY, ref smoothYVelocity, cameraConfig.turnSmooth);
+                    }
+
+                    else
+                    {
+                        smoothX = mouseX;
+                        smoothY = mouseY;
+                    }
+
+                    lookAngle += smoothX * (cameraConfig.Y_rot_speed + _distortionPK);
+                    Quaternion targetRot = Quaternion.Euler(0, lookAngle, 0);
+                    mTransform.rotation = targetRot;
+
+                    titlAngle -= smoothY * (cameraConfig.X_rot_speed + _distortionPK);
+                    titlAngle = Mathf.Clamp(titlAngle, cameraConfig.minAngle, cameraConfig.maxAngle);
+                    pivot.localRotation = Quaternion.Euler(titlAngle, 0, 0);
+                    targetRotY += smoothX * cameraConfig.Y_rot_speed;
+                    Quaternion targetRotYQuaternion = Quaternion.Euler(0, targetRotY, 0);
+                    Character.transform.rotation = targetRotYQuaternion;
+                }
             }
         }
-#endif
+            
     }
-
-    private void CalibrateRotation()
-    {
-        float targetRotY = Character.transform.rotation.eulerAngles.y;
-        if (cameraConfig.turnSmooth > 0)
-        {
-            smoothX = Mathf.SmoothDamp(smoothX, mouseX, ref smoothXVelocity, cameraConfig.turnSmooth);
-            smoothY = Mathf.SmoothDamp(smoothY, mouseY, ref smoothYVelocity, cameraConfig.turnSmooth);
-        }
-        else
-        {
-            smoothX = mouseX;
-            smoothY = mouseY;
-        }
-
-        lookAngle += smoothX * (cameraConfig.Y_rot_speed + _distortionPK);
-        Quaternion targetRot = Quaternion.Euler(0, lookAngle, 0);
-        mTransform.rotation = targetRot;
-
-        titlAngle -= smoothY * (cameraConfig.X_rot_speed + _distortionPK);
-        titlAngle = Mathf.Clamp(titlAngle, cameraConfig.minAngle, cameraConfig.maxAngle);
-        pivot.localRotation = Quaternion.Euler(titlAngle, 0, 0);
-        targetRotY += smoothX * cameraConfig.Y_rot_speed;
-        Quaternion targetRotYQuaternion = Quaternion.Euler(0, targetRotY, 0);
-        Character.transform.rotation = targetRotYQuaternion;
-    }
-
-    private void TargetLook()
-    {
-        Ray ray = new Ray(camTrans.position, camTrans.forward * rayDistance1);
-
-        if (Physics.Raycast(ray, out var hit))
-        {
-            targetLook.position = Vector3.Lerp(targetLook.position, hit.point, Time.deltaTime * 40);
-            return;
-        }
-
-        targetLook.position = Vector3.Lerp(targetLook.position, targetLook.transform.forward * rayDistance2, Time.deltaTime * 5);
-    }
+    
+    
 }

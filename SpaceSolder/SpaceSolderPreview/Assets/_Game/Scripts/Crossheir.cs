@@ -1,4 +1,8 @@
+using JetBrains.Annotations;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Crossheir : MonoBehaviour
 {
@@ -7,9 +11,9 @@ public class Crossheir : MonoBehaviour
     
     [SerializeField] private float speedSpread;
 
-    public float CurrentSpread;
+    public float currentSpread;
 
-    private float _currentSpreadInternal;
+    private float _curSpread;
 
     void Update()
     {
@@ -19,15 +23,14 @@ public class Crossheir : MonoBehaviour
     public void CrossheirUpdate()
     {
         float t = 0.005f * speedSpread;
-        _currentSpreadInternal = Mathf.Lerp(_currentSpreadInternal, CurrentSpread, t);
+        _curSpread = Mathf.Lerp(_curSpread, currentSpread, t);
 
         for (int i = 0; i < parts.Length; i++)
         {
             Parts p = parts[i];
-            p.trans.anchoredPosition = p.pos * _currentSpreadInternal;
+            p.trans.anchoredPosition = p.pos * _curSpread;
         }
     }
-
     [System.Serializable]
     public class Parts
     {
