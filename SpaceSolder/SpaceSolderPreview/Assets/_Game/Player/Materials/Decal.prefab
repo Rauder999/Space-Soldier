@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7017279867312040999}
   - component: {fileID: 5893002983951770310}
   m_Layer: 0
-  m_Name: Decal1
+  m_Name: Decal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
