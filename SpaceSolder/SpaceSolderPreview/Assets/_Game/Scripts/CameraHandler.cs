@@ -13,7 +13,6 @@ public class CameraHandler : MonoBehaviour
     [SerializeField] private Transform targetLook;
     [SerializeField] private Transform playerCenter;
     [Space]
-    [SerializeField] private CharacterStatus characterStatus;
     [SerializeField] private CameraConfig cameraConfig;
     [SerializeField] private bool leftPivot;
     [SerializeField] private float rayDistance1;
@@ -29,6 +28,7 @@ public class CameraHandler : MonoBehaviour
     private float lookAngle;
     private float titlAngle;
     private float _distortionPK;
+    private bool isAiming;
 
     private void Update()
     {
@@ -55,9 +55,7 @@ public class CameraHandler : MonoBehaviour
 
     public void ScopeController()
     {
-        bool _isAiming = characterStatus.isAiming;
-        _isAiming = !_isAiming;
-        characterStatus.isAiming = _isAiming;
+        isAiming = !isAiming;
     }
     void HandlePosition()
     {
@@ -65,7 +63,7 @@ public class CameraHandler : MonoBehaviour
         float targetY = cameraConfig.normalY;
         float targetZ = cameraConfig.normalZ;
 
-        if (characterStatus.isAiming) 
+        if (isAiming) 
         {
             targetX = cameraConfig.aimX;
             targetZ = cameraConfig.aimZ;

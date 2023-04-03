@@ -97,4 +97,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 150
-  decalPrefab: {fileID: 8956918524739125829, guid: f6f7a6884328a0046b951699750bf87e, type: 3}
+  decalPrefab: {fileID: 7017279867309847271, guid: 2dfe8bf3025b5d5429e36e77e9069104, type: 3}

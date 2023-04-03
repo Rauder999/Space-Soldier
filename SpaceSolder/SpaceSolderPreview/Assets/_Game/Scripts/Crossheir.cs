@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Crossheir : MonoBehaviour
 {
-    [SerializeField] private CharacterStatus characterStatus;
     [SerializeField] private Parts[] parts;
     
     [SerializeField] private float speedSpread;
