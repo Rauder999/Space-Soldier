@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -20,10 +22,12 @@ public class PlayerMovement : MonoBehaviour
    
     private void Update()
     {
-        rb.velocity = new Vector3(joystick.Horizontal * moveSpeed, rb.velocity.y, joystick.Vertical * moveSpeed);
         if (joystick.Horizontal != 0 || joystick.Vertical != 0)
         {
-            Quaternion newRotation = Quaternion.LookRotation(rb.velocity);
+            var moveRotation = Quaternion.LookRotation(new Vector3(joystick.Horizontal, 0, joystick.Vertical));
+            rb.velocity = moveRotation * transform.forward * moveSpeed;
+
+            Quaternion newRotation = Quaternion.LookRotation(transform.forward);
             float angle = Mathf.Abs(newRotation.eulerAngles.y - mainCamera.transform.eulerAngles.y);
             angle = CalibrateAngle(angle);
 
@@ -39,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            rb.velocity = Vector3.zero;
             float yRotation = mainCamera.transform.rotation.eulerAngles.y;
             SetAnimationTegs(yRotation, 20, true, true);
         }
