@@ -1,22 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseDamageReceiver : MonoBehaviour, IDamageReceiver
 {
+    [SerializeField] private ActionBase[] executeOnGetDamage;
+    [SerializeField] private ActionBase[] executeOnHPBelowZero;
     [SerializeField] private float armor;
-    [SerializeField] private DamageReceiver _damageReceiver;
-
+    [SerializeField] private float HP;
 
     public void OnGetDamage(float dmg)
     {
-        armor = armor >= dmg ? dmg : armor;
-        _damageReceiver.HP -= (dmg - armor);
-        print(name+ ": " + _damageReceiver.HP);
-        if (_damageReceiver.HP <= 0)
+        var penetratedDamage = Mathf.Max(dmg - armor, 0);
+        HP -= penetratedDamage;
+
+        Debug.Log($"name {HP}", gameObject);
+
+
+        if (HP <= 0)
         {
-           _damageReceiver.GetComponent<DestroyAction>().ExecuteAction();
+            ActionBase.ExecuteRange(executeOnHPBelowZero);
+        }
+        else
+        {
+            ActionBase.ExecuteRange(executeOnGetDamage);
         }
     }
 }

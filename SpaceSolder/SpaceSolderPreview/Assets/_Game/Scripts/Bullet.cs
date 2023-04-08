@@ -26,10 +26,12 @@ public class Bullet : MonoBehaviour
             var decal = Instantiate(decalPrefab);
             decal.transform.position = hit.point + hit.normal * 0.001f;
             decal.transform.rotation = Quaternion.LookRotation(hit.normal);
-            if(hit.transform.GetComponent<BaseDamageReceiver>())
+
+            if (hit.transform.TryGetComponent<IDamageReceiver>(out var damageReceiver))
             {
-                hit.transform.GetComponent<BaseDamageReceiver>().OnGetDamage(dmg);
+                damageReceiver.OnGetDamage(dmg);
             }
+
             Destroy(decal, 10);
             Destroy(gameObject);
         }
