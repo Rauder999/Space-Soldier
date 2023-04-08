@@ -3,6 +3,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float dmg;
     [SerializeField] private GameObject decalPrefab;
     
     private Vector3 lastPos;
@@ -25,6 +26,10 @@ public class Bullet : MonoBehaviour
             var decal = Instantiate(decalPrefab);
             decal.transform.position = hit.point + hit.normal * 0.001f;
             decal.transform.rotation = Quaternion.LookRotation(hit.normal);
+            if(hit.transform.GetComponent<BaseDamageReceiver>())
+            {
+                hit.transform.GetComponent<BaseDamageReceiver>().OnGetDamage(dmg);
+            }
             Destroy(decal, 10);
             Destroy(gameObject);
         }
