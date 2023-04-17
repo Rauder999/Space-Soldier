@@ -7,7 +7,7 @@ public class ChangeColorAction : ActionBase
     [SerializeField] private Color color;
     [SerializeField] private float intensity;
 
-    public override void ExecuteAction()
+    public override void ExecuteAction(params ActionParameter[] parametr)
     {
         if (renderer == null)
             return;
