@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - MoodBoxManager
+  - Enemy
   layers:
   - Default
   - TransparentFX

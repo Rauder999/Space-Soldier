@@ -99,3 +99,5 @@ MonoBehaviour:
   speed: 150
   dmg: 30
   decalPrefab: {fileID: 7017279867309847271, guid: 2dfe8bf3025b5d5429e36e77e9069104, type: 3}
+  bloodDecalPrefab: {fileID: 1000010191825552, guid: 83e55d3418297934fab882559d009285, type: 3}
+  baseDamage: {fileID: 1032490750283321208, guid: 159e96f2f7a842a47851be792a9cf73f, type: 3}

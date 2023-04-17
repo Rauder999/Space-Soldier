@@ -5,7 +5,7 @@ public class BaseDamageReceiver : MonoBehaviour, IDamageReceiver
     [SerializeField] private ActionBase[] executeOnGetDamage;
     [SerializeField] private ActionBase[] executeOnHPBelowZero;
     [SerializeField] private float armor;
-    [SerializeField] private float HP;
+    public float HP;
 
     public void OnGetDamage(float dmg)
     {
@@ -23,5 +23,14 @@ public class BaseDamageReceiver : MonoBehaviour, IDamageReceiver
         {
             ActionBase.ExecuteRange(executeOnGetDamage);
         }
+    }
+
+   public void DecalSpawnAction(RaycastHit hit, GameObject decalPrefab)
+    {
+            var decal = Instantiate(decalPrefab);
+            decal.transform.position = hit.point + hit.normal * 0.001f;
+            decal.transform.rotation = Quaternion.LookRotation(hit.normal);
+            decal.transform.SetParent(hit.transform);
+            Destroy(decal, 5);
     }
 }
