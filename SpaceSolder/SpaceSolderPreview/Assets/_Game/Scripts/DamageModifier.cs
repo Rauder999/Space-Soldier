@@ -5,13 +5,13 @@ public class DamageModifier : MonoBehaviour, IDamageReceiver
     [SerializeField] private BaseDamageReceiver damageReceiver;
     [SerializeField] private float addToIncommingDamage;
 
-    public void OnGetDamage(float dmg)
+    public void OnGetDamage(DamageData damageData)
     {
-        damageReceiver.OnGetDamage(ModifieDamage(dmg));
+        damageReceiver.OnGetDamage(ModifieDamage(damageData));
     }
 
-    private float ModifieDamage(float dmg)
+    private DamageData ModifieDamage(DamageData damageData)
     {
-        return dmg + addToIncommingDamage;
+        return new DamageData(damageData.Damage + addToIncommingDamage, damageData.Hit);
     }
 }

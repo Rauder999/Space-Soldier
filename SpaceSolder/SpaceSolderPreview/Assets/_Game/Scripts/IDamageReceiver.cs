@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IDamageReceiver
 {
-    void OnGetDamage(float dmg);
+    void OnGetDamage(DamageData damageData);
 }
 
 public struct DamageData
