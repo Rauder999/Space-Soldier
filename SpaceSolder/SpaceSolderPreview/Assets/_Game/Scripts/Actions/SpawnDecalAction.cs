@@ -1,15 +1,16 @@
-using UnityEngine;
+﻿using UnityEngine;
+
 public class SpawnDecalAction : ActionBase
 {
     [SerializeField] private GameObject effectPrefab;
-    public override void ExecuteAction(params ActionParameter[] parametr)
+    public override void ExecuteAction(params ActionParameter[] parameters)
     {
-        if (parametr == null)
+        if (parameters == null)
         {
             Debug.Log("DoesntWork");
             return;
         }
-        foreach (var param in parametr)
+        foreach (var param in parameters)
         {
             if (param is HitParameter hitParameter)
             {
