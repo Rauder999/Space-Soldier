@@ -9,11 +9,13 @@ public class Player : MonoBehaviour
     {
         if(other.transform.TryGetComponent<ICollectableItem>(out var item))
         {
-            if(item is BulletPack bulletPack)
+            switch (item.ItemType)
             {
-                weapon.AddAmumnition(bulletPack.GetCount());
-                bulletPack.OnCollect();
-                Destroy(other.gameObject);
+                case CollectableItems.BulletPack:
+                    weapon.AddAmumnition(item.GetCount());
+                    item.OnCollect();
+                    Destroy(other.gameObject);
+                    break;
             }
         }
     }

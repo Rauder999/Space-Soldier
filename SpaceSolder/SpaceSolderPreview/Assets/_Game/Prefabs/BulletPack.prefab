@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletToAddRange: {x: 10, y: 30}
-  executeOnGetCollect:
+  executeOnCollect:
   - {fileID: 3678893040047526483}
 --- !u!114 &3678893040047526483
 MonoBehaviour:

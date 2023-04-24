@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class Weapon : MonoBehaviour
@@ -32,14 +31,15 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator Fire()
     {
-        if (ammoAmount > 0) 
-        { 
-        Instantiate(bullet, shotPoint.position, shotPoint.rotation);
-        muzzleFlash.Play();
-        UseAmmo(ref ammoAmount);
+        if (ammoAmount > 0)
+        {
+            Instantiate(bullet, shotPoint.position, shotPoint.rotation);
+            muzzleFlash.Play();
+            UseAmmo(ref ammoAmount);
         }
-        if (ammoAmount == 0) 
-        AddAmmo(); 
+        if (ammoAmount == 0)
+            AddAmmo();
+
         yield return new WaitForSeconds(0.2f);
     }
 
@@ -63,15 +63,18 @@ public class Weapon : MonoBehaviour
 
     public void AddAmmo()
     {
-        if(ammoLeft >= _AmmoMax)
-        { 
+        if (ammoLeft >= _AmmoMax)
+        {
             ammoAmount = _AmmoMax;
             ammoLeft -= _AmmoMax;
             ammoCurrentText.text = ammoAmount.ToString();
             ammoLeftText.text = ammoLeft.ToString();
-        Debug.Log("Reload");
+            Debug.Log("Reload");
         }
-        else Debug.Log("AmmoLeft is over");
+        else
+        {
+            Debug.Log("AmmoLeft is over");
+        }
     }
 
     public void AddAmumnition(int AmmoToAdd)
