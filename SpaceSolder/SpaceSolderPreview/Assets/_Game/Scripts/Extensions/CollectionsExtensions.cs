@@ -15,4 +15,9 @@ public static class CollectionsExtensions
 
         return nextIndex >= collection.Count ? 0 : nextIndex < 0 ? collection.Count - 1 : nextIndex;
     }
+
+    public static bool IsNullOrEmpty<T>(this ICollection<T> collection)
+    {
+        return collection == null || collection.Count == 0;
+    }
 }
