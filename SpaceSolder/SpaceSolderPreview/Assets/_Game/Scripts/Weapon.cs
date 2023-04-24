@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private TextMeshProUGUI ammoCurrentText;
     [SerializeField] private TextMeshProUGUI ammoLeftText;
-     [SerializeField] private int ammoAmount;
+    [SerializeField] private int ammoAmount;
     [SerializeField] private int ammoLeft;
     private int _AmmoMax;
 
@@ -32,10 +32,13 @@ public class Weapon : MonoBehaviour
 
     private IEnumerator Fire()
     {
+        if (ammoAmount > 0) 
+        { 
         Instantiate(bullet, shotPoint.position, shotPoint.rotation);
         muzzleFlash.Play();
         UseAmmo(ref ammoAmount);
-        if(ammoAmount == 0)
+        }
+        if (ammoAmount == 0) 
         AddAmmo(); 
         yield return new WaitForSeconds(0.2f);
     }

@@ -5,4 +5,6 @@ using UnityEngine;
 public interface ICollectableItem
 {
     public int GetCount();
+
+    public void OnCollect();
 }

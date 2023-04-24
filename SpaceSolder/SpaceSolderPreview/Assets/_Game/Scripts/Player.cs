@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
             if(item is BulletPack bulletPack)
             {
                 weapon.AddAmumnition(bulletPack.GetCount());
+                bulletPack.OnCollect();
                 Destroy(other.gameObject);
             }
         }
