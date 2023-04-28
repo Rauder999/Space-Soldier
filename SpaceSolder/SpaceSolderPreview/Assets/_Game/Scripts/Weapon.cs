@@ -10,11 +10,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Camera cameraMain;
     [SerializeField] private GameObject bullet;
     [SerializeField] private ParticleSystem muzzleFlash;
-    [SerializeField] private TextMeshProUGUI ammoCurrentText;
-    [SerializeField] private TextMeshProUGUI ammoLeftText;
+    //[SerializeField] private TextMeshProUGUI ammoCurrentText;
+    //[SerializeField] private TextMeshProUGUI ammoLeftText;
     [SerializeField] private int ammoAmount;
     [SerializeField] private int ammoLeft;
     private int _AmmoMax;
+    private UIManager _UIManager;
 
     public void StartShoot()
     {
@@ -22,10 +23,17 @@ public class Weapon : MonoBehaviour
         
     }
 
+    public void Init(UIManager uIManager)
+    {
+        _UIManager = uIManager;
+    }
+
     private void Start()
     {
-        ammoCurrentText.text = ammoAmount.ToString();
-        ammoLeftText.text = ammoLeft.ToString();
+        _UIManager.SetText(UIManager.TextFieldKeys.ammoCurrentText, ammoAmount.ToString());
+        //ammoCurrentText.text = ammoAmount.ToString();
+        _UIManager.SetText(UIManager.TextFieldKeys.ammoLeftText, ammoLeft.ToString());
+        //ammoLeftText.text = ammoLeft.ToString();
         _AmmoMax = ammoAmount;
     }
 
@@ -57,18 +65,31 @@ public class Weapon : MonoBehaviour
         if (ammo > 0)
         {
             ammo--;
-            ammoCurrentText.text = ammo.ToString();
+            //ammoCurrentText.text = ammo.ToString();
+            _UIManager.SetText(UIManager.TextFieldKeys.ammoCurrentText, ammo.ToString());
         }
     }
 
     public void AddAmmo()
     {
-        if (ammoLeft >= _AmmoMax)
+        if (ammoLeft > 0)
         {
-            ammoAmount = _AmmoMax;
-            ammoLeft -= _AmmoMax;
-            ammoCurrentText.text = ammoAmount.ToString();
-            ammoLeftText.text = ammoLeft.ToString();
+            if(ammoLeft < _AmmoMax)
+            {
+                ammoAmount = ammoLeft;
+                ammoLeft -= ammoLeft;
+            }
+            else
+            {
+                ammoAmount = _AmmoMax;
+                ammoLeft -= _AmmoMax;
+            }
+
+            //ammoLeftText.text = ammoLeft.ToString();
+            _UIManager.SetText(UIManager.TextFieldKeys.ammoLeftText, ammoLeft.ToString());
+            //ammoCurrentText.text = ammoAmount.ToString();
+            _UIManager.SetText(UIManager.TextFieldKeys.ammoCurrentText, ammoAmount.ToString());
+
             Debug.Log("Reload");
         }
         else
@@ -80,6 +101,7 @@ public class Weapon : MonoBehaviour
     public void AddAmumnition(int AmmoToAdd)
     {
         ammoLeft += AmmoToAdd;
-        ammoLeftText.text = ammoLeft.ToString();
+        //ammoLeftText.text = ammoLeft.ToString();
+        _UIManager.SetText(UIManager.TextFieldKeys.ammoLeftText, ammoLeft.ToString());
     }
 }

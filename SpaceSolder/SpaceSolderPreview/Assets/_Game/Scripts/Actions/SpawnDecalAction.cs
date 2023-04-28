@@ -3,7 +3,6 @@
 public class SpawnDecalAction : ActionBase
 {
     [SerializeField] private GameObject effectPrefab;
-    [SerializeField] private float delay;
 
     private const float _correction = 0.001f;
     public override void ExecuteAction(params ActionParameter[] parameters)
@@ -21,7 +20,6 @@ public class SpawnDecalAction : ActionBase
                 decal.transform.position = hitParameter.Hit.point + hitParameter.Hit.normal * _correction;
                 decal.transform.rotation = Quaternion.LookRotation(hitParameter.Hit.normal);
                 decal.transform.SetParent(hitParameter.Hit.transform);
-                Destroy(decal, delay);
             }
         }
     }

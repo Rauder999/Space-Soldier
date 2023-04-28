@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7281535641344190929}
   - component: {fileID: 7281535641344190928}
   - component: {fileID: 7281535641344190931}
+  - component: {fileID: 7152523237875103402}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -101,3 +102,16 @@ MonoBehaviour:
   decalPrefab: {fileID: 7017279867309847271, guid: 2dfe8bf3025b5d5429e36e77e9069104, type: 3}
   bloodDecalPrefab: {fileID: 1000010191825552, guid: 83e55d3418297934fab882559d009285, type: 3}
   baseDamage: {fileID: 1032490750283321208, guid: 159e96f2f7a842a47851be792a9cf73f, type: 3}
+--- !u!114 &7152523237875103402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281535641344190930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34d2537378f55947ae6da427e96c32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delayToDestroy: 3
