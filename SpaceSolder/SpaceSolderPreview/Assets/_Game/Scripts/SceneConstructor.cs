@@ -11,21 +11,14 @@ public class SceneConstructor : MonoBehaviour
     {
         public GameObject Prefab;
         public Vector3 TransPos;
-        public Vector3 Rot;
-
-        public ConstructData(GameObject prefab, Vector3 transPos, Vector3 rot)
-        {
-            Prefab = prefab;
-            TransPos = transPos;
-            Rot = rot;
-        }
+        public Quaternion Rotation;
     }
 
     public void Init()
     {
         foreach (var item in constructDatas)
         {
-            Instantiate(item.Prefab, item.TransPos, Quaternion.Euler(item.Rot));
+            Instantiate(item.Prefab, item.TransPos, item.Rotation);
         }
     }
 }

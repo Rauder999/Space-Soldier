@@ -11,10 +11,10 @@ public class UIManager : MonoBehaviour
     {
         switch (textFieldKey)
         {
-            case TextFieldKeys.ammoCurrentText:
+            case TextFieldKeys.AmmoCurrentText:
                 ammoCurrentText.text = textToSet;
                 break;
-            case TextFieldKeys.ammoLeftText:
+            case TextFieldKeys.AmmoLeftText:
                 ammoLeftText.text = textToSet;
                 break;
             
@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     }
     public enum TextFieldKeys
     {
-        ammoCurrentText,
-        ammoLeftText
+        AmmoCurrentText,
+        AmmoLeftText
     }
 }

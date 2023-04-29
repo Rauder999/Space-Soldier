@@ -1,54 +1,63 @@
-using System.Collections;
 using UnityEngine;
-using TMPro;
 
 public class Weapon : MonoBehaviour
 {
     [SerializeField] private Transform shotPoint;
     [SerializeField] private Transform targetLook;
-
-    [SerializeField] private Camera cameraMain;
+    [Space]
     [SerializeField] private GameObject bullet;
-    [SerializeField] private ParticleSystem muzzleFlash;
-    //[SerializeField] private TextMeshProUGUI ammoCurrentText;
-    //[SerializeField] private TextMeshProUGUI ammoLeftText;
-    [SerializeField] private int ammoAmount;
-    [SerializeField] private int ammoLeft;
-    private int _AmmoMax;
-    private UIManager _UIManager;
+    [SerializeField] private ParticleSystem shootEffect;
+    [Space]
+    [SerializeField] private int maxAmmo;
+    [SerializeField] private int startAmmo;
+    [SerializeField] private int ammoPerShoot;
 
-    public void StartShoot()
+    private UIManager _UIManager;
+    private Camera _cameraMain;
+
+    public int CurrentAmmo
     {
-        StartCoroutine(Fire());
-        
+        get => _currentAmmo;
+        set
+        {
+            _currentAmmo = value;
+            _UIManager.SetText(UIManager.TextFieldKeys.AmmoCurrentText, _currentAmmo.ToString());
+        }
     }
+    private int _currentAmmo;
+
+    public int FreeAmmo
+    {
+        get => _freeAmmo;
+        set
+        {
+            _freeAmmo = value;
+            _UIManager.SetText(UIManager.TextFieldKeys.AmmoLeftText, _freeAmmo.ToString());
+        }
+    }
+    private int _freeAmmo;
+
 
     public void Init(UIManager uIManager)
     {
         _UIManager = uIManager;
+        _cameraMain = Camera.main;
+
+        FreeAmmo = startAmmo;
+        Reload();
     }
 
-    private void Start()
+    public void Shoot()
     {
-        _UIManager.SetText(UIManager.TextFieldKeys.ammoCurrentText, ammoAmount.ToString());
-        //ammoCurrentText.text = ammoAmount.ToString();
-        _UIManager.SetText(UIManager.TextFieldKeys.ammoLeftText, ammoLeft.ToString());
-        //ammoLeftText.text = ammoLeft.ToString();
-        _AmmoMax = ammoAmount;
-    }
-
-    private IEnumerator Fire()
-    {
-        if (ammoAmount > 0)
+        if (CurrentAmmo > 0)
         {
             Instantiate(bullet, shotPoint.position, shotPoint.rotation);
-            muzzleFlash.Play();
-            UseAmmo(ref ammoAmount);
+            shootEffect.Play();
+            SpendAmmo(ammoPerShoot);
         }
-        if (ammoAmount == 0)
-            AddAmmo();
 
-        yield return new WaitForSeconds(0.2f);
+        if (CurrentAmmo == 0)
+            Reload();
     }
 
     void Update()
@@ -58,50 +67,38 @@ public class Weapon : MonoBehaviour
 
         Debug.DrawLine(origin, dir, Color.red);
         shotPoint.transform.LookAt(targetLook);
-        Debug.DrawLine(cameraMain.transform.position, dir, Color.red);  
-    }
-    private void UseAmmo(ref int ammo)
-    {
-        if (ammo > 0)
-        {
-            ammo--;
-            //ammoCurrentText.text = ammo.ToString();
-            _UIManager.SetText(UIManager.TextFieldKeys.ammoCurrentText, ammo.ToString());
-        }
+        Debug.DrawLine(_cameraMain.transform.position, dir, Color.red);  
     }
 
-    public void AddAmmo()
+    private void SpendAmmo(int amount)
     {
-        if (ammoLeft > 0)
+        if (CurrentAmmo > amount)
         {
-            if(ammoLeft < _AmmoMax)
-            {
-                ammoAmount = ammoLeft;
-                ammoLeft -= ammoLeft;
-            }
-            else
-            {
-                ammoAmount = _AmmoMax;
-                ammoLeft -= _AmmoMax;
-            }
-
-            //ammoLeftText.text = ammoLeft.ToString();
-            _UIManager.SetText(UIManager.TextFieldKeys.ammoLeftText, ammoLeft.ToString());
-            //ammoCurrentText.text = ammoAmount.ToString();
-            _UIManager.SetText(UIManager.TextFieldKeys.ammoCurrentText, ammoAmount.ToString());
-
-            Debug.Log("Reload");
+            CurrentAmmo -= amount;
+            return;
         }
-        else
-        {
-            Debug.Log("AmmoLeft is over");
-        }
+
+        CurrentAmmo = 0;
     }
 
-    public void AddAmumnition(int AmmoToAdd)
+    public void AddAmmo(int amount)
     {
-        ammoLeft += AmmoToAdd;
-        //ammoLeftText.text = ammoLeft.ToString();
-        _UIManager.SetText(UIManager.TextFieldKeys.ammoLeftText, ammoLeft.ToString());
+        FreeAmmo += amount;
+    }
+
+    public void Reload()
+    {
+        if (FreeAmmo > maxAmmo)
+        {
+            CurrentAmmo = maxAmmo;
+            FreeAmmo -= maxAmmo;
+            return;
+        }
+
+        if (FreeAmmo > 0)
+        {
+            CurrentAmmo = FreeAmmo;
+            FreeAmmo = 0;
+        }
     }
 }

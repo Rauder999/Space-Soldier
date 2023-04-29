@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
             switch (item.ItemType)
             {
                 case CollectableItems.BulletPack:
-                    weapon.AddAmumnition(item.GetCount());
+                    weapon.AddAmmo(item.GetCount());
                     item.OnCollect();
                     Destroy(other.gameObject);
                     break;

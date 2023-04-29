@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.31825972, g: 0.37558782, b: 0.3967567, a: 1}
+  m_IndirectSpecularColor: {r: 0.31539768, g: 0.37781185, b: 0.40056205, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -38026,19 +38026,19 @@ MonoBehaviour:
   constructDatas:
   - Prefab: {fileID: 5775504937400032884, guid: a45b303ba038f574ca175c1329c4f4be, type: 3}
     TransPos: {x: -6.037, y: 0.32505, z: 13.11}
-    Rot: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
   - Prefab: {fileID: 5775504937400032884, guid: a45b303ba038f574ca175c1329c4f4be, type: 3}
     TransPos: {x: -6.037, y: 0.32505, z: 9.891419}
-    Rot: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
   - Prefab: {fileID: 5775504937400032884, guid: a45b303ba038f574ca175c1329c4f4be, type: 3}
     TransPos: {x: -6.037, y: 0.32505, z: 15.43}
-    Rot: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
   - Prefab: {fileID: 5672244087126479784, guid: 0ae88a3cd261b3b4d996413f67a35558, type: 3}
     TransPos: {x: 3.834641, y: 1.5350909, z: 3.4257946}
-    Rot: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
   - Prefab: {fileID: 7826994278896099790, guid: cac1c7ce998ad0844b416c6657336c74, type: 3}
     TransPos: {x: -9.613, y: 0.77, z: 11.01}
-    Rot: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &681462492
 GameObject:
   m_ObjectHideFlags: 0
@@ -38348,7 +38348,7 @@ Canvas:
   m_TargetDisplay: 0
 --- !u!95 &899816026
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -38365,7 +38365,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1011171871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38805,11 +38806,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotPoint: {fileID: 1667992243}
   targetLook: {fileID: 776150999}
-  cameraMain: {fileID: 135622439}
   bullet: {fileID: 7281535641344190930, guid: 563be99ae5f20234e8bef841cd8e71a4, type: 3}
-  muzzleFlash: {fileID: 518118482}
-  ammoAmount: 10
-  ammoLeft: 30
+  shootEffect: {fileID: 518118482}
+  maxAmmo: 10
+  startAmmo: 30
+  ammoPerShoot: 1
 --- !u!1 &1255329491
 GameObject:
   m_ObjectHideFlags: 0
@@ -39369,26 +39370,14 @@ MonoBehaviour:
   - eventID: 3
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1201322437}
-          m_TargetAssemblyTypeName: Weapon, Assembly-CSharp
-          m_MethodName: StopShoot
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
   - eventID: 2
     callback:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1201322437}
           m_TargetAssemblyTypeName: Weapon, Assembly-CSharp
-          m_MethodName: StartShoot
+          m_MethodName: Shoot
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
