@@ -10,5 +10,6 @@ public interface ICollectableItem
 
 public enum CollectableItems
 {
-    BulletPack
+    BulletPack,
+    Weapon
 }
