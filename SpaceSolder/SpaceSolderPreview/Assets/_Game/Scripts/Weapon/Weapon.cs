@@ -3,8 +3,6 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour, IThrowable, ICollectableItem
 {
     [SerializeField] protected Transform shotPoint;
-    [SerializeField] protected Transform targetLook;
-    [SerializeField] private Transform weaponPos;
     [Space]
     [SerializeField] protected GameObject bullet;
     [SerializeField] protected ParticleSystem shootEffect;
@@ -13,9 +11,6 @@ public abstract class Weapon : MonoBehaviour, IThrowable, ICollectableItem
     [SerializeField] protected int startAmmo;
     [SerializeField] protected int ammoPerShoot;
 
-    private UIManager _UIManager;
-    private Camera _cameraMain;
-    private Player _player;
 
     public int CurrentAmmo
     {
@@ -26,9 +21,6 @@ public abstract class Weapon : MonoBehaviour, IThrowable, ICollectableItem
             _UIManager.SetText(UIManager.TextFieldKeys.AmmoCurrentText, _currentAmmo.ToString());
         }
     }
-    public Weapon currentWeapon;
-    private int _currentAmmo;
-
     public int FreeAmmo
     {
         get => _freeAmmo;
@@ -38,20 +30,37 @@ public abstract class Weapon : MonoBehaviour, IThrowable, ICollectableItem
             _UIManager.SetText(UIManager.TextFieldKeys.AmmoLeftText, _freeAmmo.ToString());
         }
     }
+
+    public CollectableItems ItemType => CollectableItems.Weapon;
+
+    private UIManager _UIManager;
+    private Player _player;
+    private Rigidbody _rigidbody;
+    private Collider _collider;
+
+    private Transform _targetLook;
+    private Transform _weaponPos;
+
+    private int _currentAmmo;
     private int _freeAmmo;
+    private bool _isInited;
+    
 
-
-    public void Init(UIManager uIManager, Player player)
+    public void Init(UIManager uIManager, Player player, Transform weaponHolder, Transform targetLook)
     {
-        OnInit();
         _UIManager = uIManager;
-        _cameraMain = Camera.main;
         _player = player;
-        currentWeapon = this;
-
+        _weaponPos = weaponHolder;
+        _targetLook = targetLook;
+        _rigidbody = GetComponent<Rigidbody>();
+        _collider = GetComponent<Collider>();
+        _collider.enabled = false;
 
         FreeAmmo = startAmmo;
         Reload();
+
+        _isInited = true;
+        OnInit();
     }
 
     public abstract void OnInit();
@@ -62,15 +71,17 @@ public abstract class Weapon : MonoBehaviour, IThrowable, ICollectableItem
 
     void Update()
     {
-        Vector3 origin = shotPoint.position;
-        Vector3 dir = targetLook.position;
+        if (!_isInited)
+            return;
 
+        Vector3 origin = shotPoint.position;
+        Vector3 dir = _targetLook.position;
+        
         Debug.DrawLine(origin, dir, Color.red);
-        shotPoint.transform.LookAt(targetLook);
-        //Debug.DrawLine(_cameraMain.transform.position, dir, Color.red);
+        shotPoint.transform.LookAt(_targetLook);
     }
 
-    private protected void SpendAmmo(int amount)
+    protected void SpendAmmo(int amount)
     {
         if (CurrentAmmo > amount)
         {
@@ -103,9 +114,6 @@ public abstract class Weapon : MonoBehaviour, IThrowable, ICollectableItem
     }
 
 
-
-    public CollectableItems ItemType => CollectableItems.Weapon;
-
     public int GetCount()
     {
         return 1;
@@ -113,20 +121,21 @@ public abstract class Weapon : MonoBehaviour, IThrowable, ICollectableItem
 
     public void OnCollect()
     {
-        currentWeapon.transform.parent = _player.transform;
-        currentWeapon.transform.position = weaponPos.position;
-        currentWeapon.transform.rotation = weaponPos.rotation;
-        Destroy(GetComponent<Rigidbody>());
-        Destroy(GetComponent<BoxCollider>());
+        _rigidbody.isKinematic = true;
+        _collider.enabled = false;
+
+        transform.parent = _player.transform;
+        transform.position = _weaponPos.position;
+        transform.rotation = _weaponPos.rotation;
     }
 
 
     public ICollectableItem Throw()
     {
-        currentWeapon.gameObject.transform.parent = null;
-        BoxCollider boxCollider = currentWeapon.gameObject.AddComponent<BoxCollider>();
-        Rigidbody rb = currentWeapon.gameObject.AddComponent<Rigidbody>();
-        rb.AddForce(transform.forward);
+        transform.parent = null;
+        _collider.enabled = true;
+        _rigidbody.isKinematic = false;
+        _rigidbody.AddForce(transform.forward);
 
         return this;
     }

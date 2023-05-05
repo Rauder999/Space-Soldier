@@ -6,6 +6,10 @@ public class TommyGun : Weapon
     [SerializeField] float corotaineDeley;
     private Coroutine _ShootCoroutine;
     private bool isShooting;
+
+
+    public override void OnInit() { }
+
     public override void Shoot()
     {
         isShooting = true;
@@ -32,11 +36,6 @@ public class TommyGun : Weapon
         }
     }
 
-    public override void OnInit()
-    {
-
-    }
-
     public override void Stop()
     {
         if (_ShootCoroutine != null)
@@ -45,5 +44,4 @@ public class TommyGun : Weapon
             isShooting = false;
         }
     }
-
 }

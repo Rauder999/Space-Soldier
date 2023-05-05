@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.31825972, g: 0.37558782, b: 0.3967567, a: 1}
+  m_IndirectSpecularColor: {r: 0.31539768, g: 0.37781185, b: 0.40056205, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -39630,7 +39630,7 @@ Canvas:
   m_TargetDisplay: 0
 --- !u!95 &899816026
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -39647,7 +39647,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1011171871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39797,24 +39798,6 @@ Transform:
   m_Father: {fileID: 409138140}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1017034058 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3276433664022597901, guid: 74bbf2f12425bb8479692dbb5a5e5457, type: 3}
-  m_PrefabInstance: {fileID: 1040996430}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1017034063
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1017034058}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.87073296, y: 2.3801658, z: 0.968102}
-  m_Center: {x: 0.21456648, y: 0.11758811, z: -0.087935805}
 --- !u!1 &1040134657
 GameObject:
   m_ObjectHideFlags: 0
@@ -39950,14 +39933,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1322133048856846652, guid: 74bbf2f12425bb8479692dbb5a5e5457, type: 3}
-      propertyPath: weaponPos
-      value: 
-      objectReference: {fileID: 1724799971}
-    - target: {fileID: 1322133048856846652, guid: 74bbf2f12425bb8479692dbb5a5e5457, type: 3}
-      propertyPath: targetLook
-      value: 
-      objectReference: {fileID: 776150999}
     - target: {fileID: 3276433664022597901, guid: 74bbf2f12425bb8479692dbb5a5e5457, type: 3}
       propertyPath: m_Name
       value: Pisto
@@ -41016,6 +40991,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16df5e8cc31e50b4fa25da85ca67ce47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponHolder: {fileID: 1724799971}
+  targetLook: {fileID: 776150999}
   weapon: {fileID: 1201322440}
 --- !u!1 &1682514375
 GameObject:
@@ -41765,7 +41742,7 @@ CanvasRenderer:
   m_CullTransparentMesh: 1
 --- !u!95 &3166231814120051099
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -41782,7 +41759,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &4652980161382601346
 PrefabInstance:
   m_ObjectHideFlags: 0

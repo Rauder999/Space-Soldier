@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Transform weaponHolder;
+    [SerializeField] private Transform targetLook;
     [SerializeField] private Weapon weapon;
-    
+
     private UIManager _UIManager;
-    private ICollectableItem _lastCollectedCollectable;
-    private GameObject newWeapon;
+    private ICollectableItem _lastSavedWeapon;
+
     void OnCollisionEnter (Collision other)
     {
         if(other.transform.TryGetComponent<ICollectableItem>(out var item))
         {
-            
             switch (item.ItemType)
             {
                 case CollectableItems.BulletPack:
@@ -24,8 +22,7 @@ public class Player : MonoBehaviour
                     break;
                 case CollectableItems.Weapon:
                     _UIManager.SetActiveButton(UIManager.ButtonTypes.ButtonThrow, true);
-                    _lastCollectedCollectable = item;
-                    newWeapon = other.gameObject;
+                    _lastSavedWeapon = item;
                     break;
             }
         }
@@ -36,12 +33,11 @@ public class Player : MonoBehaviour
         {
             switch (item.ItemType)
             {
-                case CollectableItems.BulletPack:
-                    break;
                 case CollectableItems.Weapon:
-                    if(item == _lastCollectedCollectable)
+                    if(item == _lastSavedWeapon)
                     {
                         _UIManager.SetActiveButton(UIManager.ButtonTypes.ButtonThrow, false);
+                        _lastSavedWeapon = null;
                     }
                     break;
             }
@@ -54,24 +50,26 @@ public class Player : MonoBehaviour
         _UIManager.SubscribeOn(UIManager.ButtonTypes.ButtonFire, weapon.Shoot);
         _UIManager.SubscribeOn(UIManager.ButtonTypes.ButtonFireStop, weapon.Stop);
         _UIManager.SubscribeOn(UIManager.ButtonTypes.ButtonThrow, ChangeWeapon);
-        weapon.Init(uIManager, this);
+        weapon.Init(uIManager, this, weaponHolder, targetLook);
     }
 
     private void ChangeWeapon()
     {
-        if (weapon.currentWeapon != null)
+        if (_lastSavedWeapon == null)
+            return;
+
+        if (weapon)
         {
-            weapon.currentWeapon?.Throw();
             _UIManager.RemoveListener(UIManager.ButtonTypes.ButtonFire, weapon.Shoot);
-            weapon = newWeapon.GetComponent<Weapon>();
-            weapon.Init(_UIManager, this);
-            _UIManager.SubscribeOn(UIManager.ButtonTypes.ButtonFire, weapon.Shoot);
-            weapon.OnCollect();
+            _UIManager.RemoveListener(UIManager.ButtonTypes.ButtonFireStop, weapon.Stop);
+            weapon.Throw();
         }
-        else
-        {
-            //weapon.OnCollect();
-            //weapon.currentWeapon = GetComponent<Weapon>();
-        }
+
+        weapon = _lastSavedWeapon as Weapon;
+        _UIManager.SubscribeOn(UIManager.ButtonTypes.ButtonFire, weapon.Shoot);
+        _UIManager.SubscribeOn(UIManager.ButtonTypes.ButtonFireStop, weapon.Stop);
+
+        weapon.Init(_UIManager, this, weaponHolder, targetLook);
+        weapon.OnCollect();
     }
 }
