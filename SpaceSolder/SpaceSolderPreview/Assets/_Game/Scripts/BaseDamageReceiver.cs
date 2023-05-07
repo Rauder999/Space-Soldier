@@ -16,11 +16,11 @@ public class BaseDamageReceiver : MonoBehaviour, IDamageReceiver
 
         if (HP <= 0)
         {
-            executeOnHPBelowZero.ExecuteAll();
+            executeOnHPBelowZero.ExecuteAll(new HPParameter(HP));
         }
         else
         {
-            executeOnGetDamage.ExecuteAll(new HitParameter(damageData.Hit));
+            executeOnGetDamage.ExecuteAll(new HitParameter(damageData.Hit), new HPParameter(HP));
         }
     }
 }

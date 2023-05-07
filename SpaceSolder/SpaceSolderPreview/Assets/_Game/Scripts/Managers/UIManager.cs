@@ -4,26 +4,13 @@ using TMPro;
 using UnityEngine.Events;
 using System;
 
-public class UIManager : MonoBehaviour
+public partial class UIManager : MonoBehaviour
 {
-    public enum TextFieldKeys
-    {
-        AmmoCurrentText,
-        AmmoLeftText
-    }
-
-    public enum ButtonTypes
-    {
-        ButtonFire,
-        ButtonFireStop,
-        ButtonThrow
-    }
-
-
     [SerializeField] private TextMeshProUGUI ammoCurrentText;
     [SerializeField] private TextMeshProUGUI ammoLeftText;
     [SerializeField] private PointerListener pointerListener;
     [SerializeField] private Button throwButton;
+    [SerializeField] private Button useButton;
 
 
     public void SetText(TextFieldKeys textFieldKey, string textToSet)
@@ -52,7 +39,10 @@ public class UIManager : MonoBehaviour
                 break;
 
             case ButtonTypes.ButtonThrow:
-                throwButton.onClick.AddListener(new UnityAction(onClickCallback));
+                throwButton.GetComponent<PointerListener>().OnPointerClick += onClickCallback;
+                break;
+            case ButtonTypes.ButtonUse:
+                useButton.GetComponent<PointerListener>().OnPointerClick += onClickCallback;
                 break;
         }
     }
@@ -69,9 +59,12 @@ public class UIManager : MonoBehaviour
                 pointerListener.OnPointerUp -= onClickCallback;
                 break;
 
-            //case ButtonTypes.ButtonThrow:
-            //    throwButton.onClick.RemoveListener(onClickCallback);
-            //    break;
+            case ButtonTypes.ButtonThrow:
+                throwButton.GetComponent<PointerListener>().OnPointerClick -= onClickCallback;
+                break;
+            case ButtonTypes.ButtonUse:
+                useButton.GetComponent<PointerListener>().OnPointerClick -= onClickCallback;
+                break;
         }
     }
 

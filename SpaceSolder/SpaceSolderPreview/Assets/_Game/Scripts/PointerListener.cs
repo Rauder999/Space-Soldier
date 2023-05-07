@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 
-public class PointerListener : MonoBehaviour, IPointerUpHandler, IPointerDownHandler
+public class PointerListener : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
 {
     public Action OnPointerUp;
     public Action OnPointerDown;
+    public Action OnPointerClick;
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
@@ -17,5 +18,10 @@ public class PointerListener : MonoBehaviour, IPointerUpHandler, IPointerDownHan
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         OnPointerDown?.Invoke();
+    }
+
+    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+    {
+        OnPointerClick?.Invoke();
     }
 }
