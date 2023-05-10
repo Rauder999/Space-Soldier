@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SceneConstructor : MonoBehaviour
 {
-    [SerializeField] private List<ConstructData> constructDatas;
+    [SerializeField] public List<ConstructData> constructDatas;
 
     [System.Serializable]
     public struct ConstructData
