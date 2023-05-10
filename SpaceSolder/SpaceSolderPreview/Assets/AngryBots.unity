@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.31825972, g: 0.37558782, b: 0.3967567, a: 1}
+  m_IndirectSpecularColor: {r: 0.31539768, g: 0.37781185, b: 0.40056205, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &4
 LightmapSettings:
@@ -38852,6 +38852,7 @@ GameObject:
   - component: {fileID: 1641776138}
   - component: {fileID: 1641776139}
   - component: {fileID: 1641776141}
+  - component: {fileID: 3166231814120051100}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -39723,7 +39724,7 @@ Canvas:
   m_TargetDisplay: 0
 --- !u!95 &899816026
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -39740,7 +39741,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &909435611
 GameObject:
   m_ObjectHideFlags: 0
@@ -39855,9 +39857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0.5
-  maxHight: 5
-  minHight: 0
-  waitTime: 3
+  maxHeight: 5
 --- !u!114 &909435617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42217,7 +42217,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3166231814120051099
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -42234,10 +42234,25 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3166231814120051100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312873307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75446f0c068a08644a380d81789f884c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  power: 350
+  heightHigherThan: 1.1
 --- !u!95 &3173222748997394517
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -42254,7 +42269,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!23 &3244905613035275259
 MeshRenderer:
   m_ObjectHideFlags: 0
