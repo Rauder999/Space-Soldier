@@ -1,40 +1,39 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AlivatorAction : ActionBase
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float maxHight;
-    [SerializeField] private float minHight;
-    [SerializeField] private float waitTime;
+    [SerializeField] private float maxHeight;
 
-    private bool _isMoving = true;
-    private bool _isWaiting = false;
+    private Coroutine _corotine;
+    private Vector3 _startPosition;
+
+    private void Awake()
+    {
+        _startPosition = transform.position;
+    }
 
     public override void ExecuteAction(params ActionParameter[] parametr)
     {
-        StartCoroutine(MoveElevator());
-        IEnumerator MoveElevator()
+        if (_corotine != null)
         {
-            while(true)
-            {
-                if(!_isWaiting)
-                {
-                    float targetHeight = _isMoving ? maxHight : minHight;
-                    Vector3 targetPos = new Vector3(transform.position.x, targetHeight, transform.position.z);
-                    transform.position = Vector3.Lerp(transform.position, targetPos, moveSpeed * Time.deltaTime);
-
-                    if(Mathf.Abs(transform.position.y - targetHeight) < 0.1f)
-                    {
-                        _isMoving = true;
-                        yield return new WaitForSeconds(waitTime);
-                        _isMoving = !_isMoving;
-                        _isMoving = false;
-                    }
-                }
-                yield return null;
-            }
+            transform.position = _startPosition;
+            StopCoroutine(_corotine);
         }
+
+        _corotine = StartCoroutine(MoveElevator());
+    }
+
+    IEnumerator MoveElevator()
+    {
+        while (transform.position.y < maxHeight)
+        {
+            transform.Translate(Vector3.up * moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        transform.position = _startPosition;
+        _corotine = null;
     }
 }
